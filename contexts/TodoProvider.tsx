@@ -1,5 +1,5 @@
 "use client";
-import { FC, createContext, useEffect, useState } from "react";
+import { FC, createContext, useState } from "react";
 import { TodoContextType } from "../types/contextType/contextsType";
 import { initialTodoContext } from "../types/contextType/initialContextType";
 import { TodoProviderPropsTypes } from "../types/componentsPropsTypes";
@@ -19,10 +19,6 @@ const TodoProvider: FC<TodoProviderPropsTypes> = ({ children }) => {
   const [company, setCompany] = useState<CompanyType[]>(getItems());
   // Creating Edit State
   const [isEdit, setIsEdit] = useState<EditStateType>(initialEditStateType);
-  // Set Data To CompanyState In First Render
-  useEffect(() => {
-    setCompany(getItems());
-  }, []);
 
   // Handle Add New Company
   const handleAddCompany = () => {
@@ -32,19 +28,21 @@ const TodoProvider: FC<TodoProviderPropsTypes> = ({ children }) => {
       companyName: inputValue,
       companyColumn: [],
     };
-    // Set New Data To Company State
-    setCompany((current) => [...current, newCompany]);
+
+    const newCompanies = [...company, newCompany];
+    setCompany(newCompanies);
+    setItems(newCompanies);
   };
 
   // Handle Edit Company
   const handleEditCompany = () => {
-    setCompany((current) =>
-      current.map((item) =>
-        item.companyId === isEdit.item.id
-          ? { ...item, companyName: inputValue }
-          : item
-      )
+    const newCompanies = company.map((item) =>
+      item.companyId === isEdit.item.id
+        ? { ...item, companyName: inputValue }
+        : item
     );
+    setCompany(newCompanies);
+    setItems(newCompanies);
   };
 
   //Handle Delete Company Item
@@ -52,14 +50,11 @@ const TodoProvider: FC<TodoProviderPropsTypes> = ({ children }) => {
     const isConfirm = window.confirm(
       `Are Your Sure Want Delete ${title} Company?`
     );
-    if (isConfirm)
-      setCompany((current) => current.filter((item) => item.companyId !== id));
+    if (!isConfirm) return;
+    const newCompanies = company.filter((item) => item.companyId !== id);
+    setCompany(newCompanies);
+    setItems(newCompanies);
   };
-
-  // Set Data To LocalStorage When Re-Rendering The Company
-  useEffect(() => {
-    setItems(company);
-  }, [company]);
 
   return (
     <TodoContext.Provider

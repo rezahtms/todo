@@ -1,4 +1,5 @@
 "use client";
+
 import { Container, Typography } from "@mui/material";
 import { useContext } from "react";
 import { TodoContext } from "../../../contexts/TodoProvider";
@@ -6,7 +7,6 @@ import { List } from "@material-ui/core";
 import CompanyItem from "../companyItem/CompanyItem";
 
 const CompaniesList = () => {
-  // Using Todo Context
   const { companyData } = useContext(TodoContext);
 
   return (
@@ -18,17 +18,20 @@ const CompaniesList = () => {
         Companies List
       </Typography>
 
-      <List>
-        {companyData.map((company, index) => (
-          <CompanyItem
-            key={`company-item__${company.companyId}`}
-            {...company}
-            companyNumber={index + 1}
-          />
-        ))}
-      </List>
+      {companyData?.length ? (
+        <List>
+          {companyData.map((company, index) => (
+            <CompanyItem
+              key={company.companyId}
+              {...company}
+              companyNumber={index + 1}
+            />
+          ))}
+        </List>
+      ) : (
+        <h3>No company</h3>
+      )}
     </Container>
   );
 };
-
 export default CompaniesList;
