@@ -22,7 +22,8 @@ export interface AddDataProps {
 }
 
 export interface CustomInputProps {
-  placeholder?: string
+  placeholder?: string;
+  registerName: string
 }
 
 export interface TaskProviderProps {

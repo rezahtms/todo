@@ -1,16 +1,24 @@
 "use client";
-
 import { Button, Dialog, FormLabel, Stack, Typography } from "@mui/material";
 import TaskInput from "../../atoms/taskInput/TaskInput";
 import { Textarea } from "@mui/joy";
 import { FC, useContext } from "react";
 import { TaskContext } from "../../../contexts/TaskProvider";
 import { TasksType } from "../../../types/stateType/statesType";
-
+import { useForm, SubmitHandler } from "react-hook-form";
+import { z } from "zod";
+interface IFormInput {
+  currentTarget: HTMLFormElement | undefined;
+  taskTitle: string;
+  taskAssigned: string;
+  taskDefined: string;
+}
 const Modal: FC<{ paramId: string }> = ({ paramId }) => {
-  // Using TaskContext
   const { isOpenModal, setIsOpenModal, taskStatus, handleAddTask } =
     useContext(TaskContext);
+  const { handleSubmit, register } = useForm<IFormInput>();
+
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {};
   return (
     <Dialog
       open={isOpenModal}
@@ -21,8 +29,7 @@ const Modal: FC<{ paramId: string }> = ({ paramId }) => {
       }}
     >
       <Stack
-        onSubmit={(event) => {
-          event.preventDefault();
+        onSubmit={handleSubmit((event) => {
           const formData = Object.fromEntries(
             new FormData(event.currentTarget).entries()
           );
@@ -33,7 +40,7 @@ const Modal: FC<{ paramId: string }> = ({ paramId }) => {
           } as TasksType;
           handleAddTask(newTask, Number(paramId));
           setIsOpenModal((open) => !open);
-        }}
+        })}
         component="form"
         spacing={1}
         direction="column"
@@ -52,10 +59,20 @@ const Modal: FC<{ paramId: string }> = ({ paramId }) => {
         >
           Adding Task
         </Typography>
-        <TaskInput name="taskTitle" placeholder="Enter Task Title" autofocus />
-        <TaskInput name="taskAssigned" placeholder="Task For" />
+        <TaskInput
+          {...register("taskTitle")}
+          placeholder="Enter Task Title"
+          autofocus
+        />
+        y
+        <TaskInput
+          {...register("taskAssigned")}
+          name="taskAssigned"
+          placeholder="Task For"
+        />
         <FormLabel htmlFor="task-defined">Define Task</FormLabel>
         <Textarea
+          {...register("taskDefined")}
           name="taskDefined"
           color="neutral"
           minRows={3}

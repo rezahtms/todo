@@ -37,3 +37,7 @@ export interface TaskColumnType {
   status: string;
   tasks: CompanyColumnType[];
 }
+
+export interface ErrorProps {
+  message: string | undefined
+}
