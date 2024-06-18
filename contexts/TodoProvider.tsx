@@ -1,11 +1,11 @@
 "use client";
+
 import { FC, createContext, useState } from "react";
 import { TodoContextType } from "../types/contextType/contextsType";
 import { initialTodoContext } from "../types/contextType/initialContextType";
 import { TodoProviderPropsTypes } from "../types/componentsPropsTypes";
-import { CompanyType, EditStateType } from "../types/stateType/statesType";
+import { CompanyType } from "../types/stateType/statesType";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { initialEditStateType } from "../types/stateType/initialStateType";
 
 // creating createContext For Todo
 export const TodoContext = createContext<TodoContextType>(initialTodoContext);
@@ -13,19 +13,15 @@ export const TodoContext = createContext<TodoContextType>(initialTodoContext);
 const TodoProvider: FC<TodoProviderPropsTypes> = ({ children }) => {
   // Get And Set Data From LocalStorage Hook
   const { getItems, setItems } = useLocalStorage("company");
-  // Input Value State
-  const [inputValue, setInputValue] = useState<string>("");
   // Creating Company State
   const [company, setCompany] = useState<CompanyType[]>(getItems());
-  // Creating Edit State
-  const [isEdit, setIsEdit] = useState<EditStateType>(initialEditStateType);
 
   // Handle Add New Company
-  const handleAddCompany = () => {
+  const handleAddCompany = (companyName: string) => {
     // Creating Object Of CompanyItem
     const newCompany: CompanyType = {
       companyId: Number(Date.now()),
-      companyName: inputValue,
+      companyName,
       companyColumn: [],
     };
 
@@ -35,7 +31,7 @@ const TodoProvider: FC<TodoProviderPropsTypes> = ({ children }) => {
   };
 
   // Handle Edit Company
-  const handleEditCompany = () => {
+  const handleEditCompany = (id: string, newCompanyData: CompanyType) => {
     const newCompanies = company.map((item) =>
       item.companyId === isEdit.item.id
         ? { ...item, companyName: inputValue }

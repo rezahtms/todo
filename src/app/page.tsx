@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <AddData
-        handleAddData={() => handleAddCompany()}
+        handleAddData={(name) => handleAddCompany(name)}
         handleEditData={() => handleEditCompany()}
         placeholder="Please Inter Your Company Name..."
       />
