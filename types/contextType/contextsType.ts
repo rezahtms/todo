@@ -3,15 +3,12 @@ import { CompanyType, EditStateType, TasksType } from "../stateType/statesType";
 
 // TodoContext Types
 export interface TodoContextType {
-  inputValue: string;
-  setInputValue: (string: string) => void;
+
   companyData: CompanyType[];
   handleCompanyData: Dispatch<SetStateAction<CompanyType[]>>;
   handleAddCompany: (companyName: string) => void;
   handleDeleteCompanyItem: (id: number, title: string) => void;
-  isEdit: { edit: boolean; item: { id: number; value: string } };
-  setIsEdit: Dispatch<SetStateAction<EditStateType>>;
-  handleEditCompany: () => void;
+  handleEditCompany: (id: number, newCompanyName: string) => void;
 }
 
 // TaskContext Type

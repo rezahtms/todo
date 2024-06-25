@@ -64,7 +64,7 @@ const Modal: FC<{ paramId: string }> = ({ paramId }) => {
           placeholder="Enter Task Title"
           autofocus
         />
-        y
+
         <TaskInput
           {...register("taskAssigned")}
           name="taskAssigned"
@@ -79,6 +79,7 @@ const Modal: FC<{ paramId: string }> = ({ paramId }) => {
           size="lg"
           placeholder="Define task"
         />
+
         <Button type="submit" variant="contained">
           Add
         </Button>

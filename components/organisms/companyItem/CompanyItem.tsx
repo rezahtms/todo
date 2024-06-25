@@ -1,5 +1,5 @@
 import { IconButton } from "@material-ui/core";
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Link from "next/link";
@@ -12,8 +12,17 @@ const CompanyItem: FC<CompanyItemPropsTypes> = ({
   companyNumber,
 }) => {
   // Using Todo Context
-  const { handleDeleteCompanyItem, setInputValue, setIsEdit } =
+  const { handleDeleteCompanyItem, handleEditCompany } =
     useContext(TodoContext);
+  const handleEditData = () => {
+    const promptValue = window.prompt("please inter new Name");
+    if (promptValue && promptValue.length > 3) {
+      handleEditCompany(companyId, promptValue);
+    } else {
+      alert("input is not valid");
+      return;
+    }
+  };
   return (
     <Stack
       component="li"
@@ -30,15 +39,7 @@ const CompanyItem: FC<CompanyItemPropsTypes> = ({
       >
         {companyNumber} - {companyName}
       </Link>
-      <IconButton
-        onClick={() => {
-          setInputValue(companyName);
-          setIsEdit({
-            edit: true,
-            item: { id: companyId, value: companyName },
-          });
-        }}
-      >
+      <IconButton onClick={handleEditData}>
         <EditIcon fontSize="small" color="secondary" />
       </IconButton>
       <IconButton

@@ -25,13 +25,8 @@ const Input = styled("input")({
     " 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
 });
 
-const AddData: FC<AddDataProps> = ({
-  handleAddData,
-  handleEditData,
-  placeholder,
-}) => {
+const AddData: FC<AddDataProps> = ({ handleAddData, placeholder }) => {
   // Using TodoContext
-  const { isEdit, setIsEdit } = useContext(TodoContext);
   const {
     register,
     handleSubmit,
@@ -49,23 +44,13 @@ const AddData: FC<AddDataProps> = ({
         direction="row"
         spacing={2}
         onSubmit={handleSubmit((data) => {
-          if (isEdit.edit) {
-            // If Edit Is True, Change The Data Value
-            handleEditData();
-          } else {
-            handleAddData(data.inputValue);
-          }
+          handleAddData(data.inputValue);
           setValue("inputValue", "");
-          setIsEdit({ ...isEdit, edit: false });
         })}
       >
-        <Input
-          {...register("inputValue")}
-          // onChange={(event) => setInputValue(event.target.value)}
-          placeholder={placeholder}
-        />
+        <Input {...register("inputValue")} placeholder={placeholder} />
         <Button variant="contained" type="submit">
-          {isEdit.edit ? "Edit" : "Add"}
+          add
         </Button>
       </Stack>
       {errors.inputValue && <Error message={errors?.inputValue?.message} />}

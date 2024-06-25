@@ -13,7 +13,6 @@ export interface CompanyItemPropsTypes {
 
 export interface AddDataProps {
   handleAddData: (name: string) => void;
-  handleEditData: () => void;
   placeholder?: string;
 }
 

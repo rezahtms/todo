@@ -11,7 +11,6 @@ export default function Home() {
     <>
       <AddData
         handleAddData={(name) => handleAddCompany(name)}
-        handleEditData={() => handleEditCompany()}
         placeholder="Please Inter Your Company Name..."
       />
       <CompaniesList />

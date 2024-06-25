@@ -31,11 +31,9 @@ const TodoProvider: FC<TodoProviderPropsTypes> = ({ children }) => {
   };
 
   // Handle Edit Company
-  const handleEditCompany = (id: string, newCompanyData: CompanyType) => {
+  const handleEditCompany = (id: number, newData: string) => {
     const newCompanies = company.map((item) =>
-      item.companyId === isEdit.item.id
-        ? { ...item, companyName: inputValue }
-        : item
+      item.companyId === id ? { ...item, companyName: newData } : item
     );
     setCompany(newCompanies);
     setItems(newCompanies);
@@ -55,14 +53,10 @@ const TodoProvider: FC<TodoProviderPropsTypes> = ({ children }) => {
   return (
     <TodoContext.Provider
       value={{
-        inputValue: inputValue,
-        setInputValue,
         companyData: company,
         handleCompanyData: setCompany,
         handleAddCompany: handleAddCompany,
         handleDeleteCompanyItem: handleDeleteCompanyItem,
-        isEdit: isEdit,
-        setIsEdit: setIsEdit,
         handleEditCompany: handleEditCompany,
       }}
     >
