@@ -15,12 +15,14 @@ const CompanyItem: FC<CompanyItemPropsTypes> = ({
   const { handleDeleteCompanyItem, handleEditCompany } =
     useContext(TodoContext);
   const handleEditData = () => {
-    const promptValue = window.prompt("please inter new Name");
+    const promptValue = window.prompt("please inter new Name", companyName);
+
     if (promptValue && promptValue.length > 3) {
       handleEditCompany(companyId, promptValue);
+    } else if (promptValue === null) {
+      return;
     } else {
       alert("input is not valid");
-      return;
     }
   };
   return (
