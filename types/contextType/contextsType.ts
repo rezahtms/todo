@@ -13,8 +13,8 @@ export interface TodoContextType {
 
 // TaskContext Type
 export interface TaskContextType {
-  handleAddColumn: (id: string) => void;
-  updateColumnEdit: (params: string) => void;
+  handleAddColumn: (name: string, id: string) => void;
+  updateColumnEdit: (params: string, id: number, title: string) => void;
   handleDeleteColumn: (paramId: string, id: number, title: string) => void;
   isOpenModal: boolean;
   setIsOpenModal: Dispatch<SetStateAction<boolean>>;

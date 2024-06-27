@@ -6,13 +6,12 @@ import TodoColumns from "../../../components/organisms/todoColumns/TodoColumns";
 import Modal from "../../../components/organisms/modal/Modal";
 
 const TasksPage = ({ params }: { params: { tasks: string } }) => {
-  const { handleAddColumn, updateColumnEdit } = useContext(TaskContext);
+  const { handleAddColumn } = useContext(TaskContext);
 
   return (
     <>
       <AddData
-        handleAddData={() => handleAddColumn(params.tasks)}
-        handleEditData={() => updateColumnEdit(params.tasks)}
+        handleAddData={(name) => handleAddColumn(name, params.tasks)}
         placeholder="Please Enter Column Name..."
       />
       <Modal paramId={params.tasks} />

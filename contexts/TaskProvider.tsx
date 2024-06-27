@@ -10,7 +10,7 @@ export const TaskContext = createContext<TaskContextType>(initialTaskContext);
 // Task Provider
 const TaskProvider: FC<TaskProviderProps> = ({ children }) => {
   // Using TodoContext
-  const { handleCompanyData, inputValue, isEdit } = useContext(TodoContext);
+  const { handleCompanyData } = useContext(TodoContext);
   // State For Open And Close Modal
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   // State For Column
@@ -19,10 +19,10 @@ const TaskProvider: FC<TaskProviderProps> = ({ children }) => {
   const [taskStatus, setTaskStatus] = useState<string>("");
 
   // Handle Add Column
-  const handleAddColumn = (id: string) => {
+  const handleAddColumn = (name: string, id: string) => {
     const newColumn: CompanyColumnType = {
       columnId: Date.now(),
-      columnTitle: inputValue,
+      columnTitle: name,
       tasks: [],
     };
 
@@ -35,21 +35,20 @@ const TaskProvider: FC<TaskProviderProps> = ({ children }) => {
     );
   };
 
-  const updateColumnEdit = (params: string) => {
+  const updateColumnEdit = (params: string, id: number, title: string) => {
+    console.log(params, id, title);
     handleCompanyData((current) =>
       current.map((company) =>
         company.companyId === Number(params)
           ? {
               ...company,
               companyColumn: company.companyColumn.map((column) =>
-                column.columnId === isEdit.item.id
+                column.columnId === id
                   ? {
                       ...column,
-                      columnTitle: inputValue,
+                      columnTitle: title,
                       tasks: column.tasks.map((task) =>
-                        task.taskStatus
-                          ? { ...task, taskStatus: inputValue }
-                          : task
+                        task.taskStatus ? { ...task, taskStatus: title } : task
                       ),
                     }
                   : column

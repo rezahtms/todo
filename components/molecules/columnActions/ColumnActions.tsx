@@ -4,12 +4,14 @@ import AddIcon from "@mui/icons-material/Add";
 import { FC, useContext } from "react";
 import { ColumnActionsPropsType } from "../../../types/componentsPropsTypes";
 import { TaskContext } from "../../../contexts/TaskProvider";
-import { TodoContext } from "../../../contexts/TodoProvider";
 const ColumnActions: FC<ColumnActionsPropsType> = ({ paramId, id, title }) => {
-  // Using Task Context & TodoContext
-  const { setIsEdit, setInputValue } = useContext(TodoContext);
-  const { handleDeleteColumn, setIsOpenModal, setTaskStatus, setColumnId } =
-    useContext(TaskContext);
+  const {
+    handleDeleteColumn,
+    setIsOpenModal,
+    setTaskStatus,
+    setColumnId,
+    updateColumnEdit,
+  } = useContext(TaskContext);
   return (
     <Stack
       direction="row"
@@ -27,8 +29,14 @@ const ColumnActions: FC<ColumnActionsPropsType> = ({ paramId, id, title }) => {
       </IconButton>
       <IconButton
         onClick={() => {
-          setIsEdit({ edit: true, item: { id: id, value: title } });
-          setInputValue(title);
+          const prompt = window.prompt(`edit ${title} column value`, title);
+          if (prompt && prompt.length > 3) {
+            updateColumnEdit(paramId, +id, prompt);
+          } else if (prompt === null) {
+            return;
+          } else {
+            alert("input value is invalid");
+          }
         }}
       >
         <Edit fontSize="small" color="secondary" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, createContext, useState } from "react";
+import { FC, createContext, useEffect, useState } from "react";
 import { TodoContextType } from "../types/contextType/contextsType";
 import { initialTodoContext } from "../types/contextType/initialContextType";
 import { TodoProviderPropsTypes } from "../types/componentsPropsTypes";
@@ -50,6 +50,9 @@ const TodoProvider: FC<TodoProviderPropsTypes> = ({ children }) => {
     setItems(newCompanies);
   };
 
+  useEffect(() => {
+    setItems(company);
+  }, [company]);
   return (
     <TodoContext.Provider
       value={{
